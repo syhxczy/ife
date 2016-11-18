@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>task_22</title>
+    <style>
+        div {
+            border: 2px solid gray;
+            display: flex;
+            margin: 36px 24px;
+            flex-grow: 1;
+            transition: background-color 1000ms;
+        }
+        .root {
+            width: 80%;
+            height: 300px;
+            margin: 20px auto;
+        }
+        input {
+            margin-left: 100px;
+            width: 120px;
+            height: 50px;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="root">
+    <div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+<input type="button" value="前序">
+<input type="button" value="中序">
+<input type="button" value="后序">
+<script type="text/javascript">
+var btn = document.getElementsByTagName('input'),
+    preBtn = btn[0],
+    inBtn = btn[1],
+    postBtn = btn[2],
+    treeRoot = document.getElementsByClassName('root')[0],
+    divList = [],
+    timer = null;
+window.onload = function (){
+    preBtn.onclick = function () {
+        reset();
+        preOrder(treeRoot);
+        changeColor();
+    }
+    inBtn.onclick = function () {
+        reset();
+        inOrder(treeRoot);
+        changeColor();  
+    }
+    postBtn.onclick = function () {
+        reset();
+        postOrder(treeRoot);
+        changeColor();
+    }
+}
+
+//前序遍历
+function preOrder(node) {
+    if (!(node == null)) {
+        divList.push(node);
+        preOrder(node.firstElementChild);
+        preOrder(node.lastElementChild);
+    }
+}
+
+//中序遍历
+function inOrder(node) {
+    if (!(node == null)) {
+        inOrder(node.firstElementChild);
+        divList.push(node);
+        inOrder(node.lastElementChild);
+    }
+}
+
+//后序遍历
+function postOrder(node) {
+    if (!(node == null)) {
+        postOrder(node.firstElementChild);
+        postOrder(node.lastElementChild);
+        divList.push(node);
+    }
+}
+
+//颜色变化函数
+function changeColor() {
+    var i = 0;
+    divList[i].style.backgroundColor = 'blue';
+    timer = setInterval(function () {
+        i++;
+        if (i < divList.length) {
+            divList[i-1].style.backgroundColor = '#fff';
+            divList[i].style.backgroundColor = 'blue';
+        } else {
+            clearInterval(timer);
+            divList[divList.length-1].style.backgroundColor = '#fff';
+        }
+    },500);
+}
+
+//初始化样式
+function reset() {
+    divList = [];
+    clearInterval(timer);
+    var divs = document.getElementsByTagName('div');
+    for (var i = 0; i < divs.length; i++) {
+        divs[i].style.backgroundColor = 'black';
+    }
+}
+</script>
+</body>
+</html>
